@@ -51,7 +51,7 @@ public class ScheduledTasks {
     private void start() {
         System.out.println(
                         ConsoleModificator.bright_green()
-                        + "Time of execution: "
+                        + "Time of execution:          "
                         + ConsoleModificator.dark_white()
                         + formatter.format(LocalDateTime.now())
                         + ConsoleModificator.none()
