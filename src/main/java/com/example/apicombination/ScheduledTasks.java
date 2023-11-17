@@ -48,7 +48,7 @@ public class ScheduledTasks {
 //test
     @Scheduled(cron = "*/10 * * * * *")
     //@Scheduled(cron = "0 33 14 * * *")
-    private void start() {
+    private void start_zvonenie() {
         System.out.println(
                         ConsoleModificator.bright_green()
                         + "Time of execution:          "
