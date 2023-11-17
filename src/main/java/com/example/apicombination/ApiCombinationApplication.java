@@ -46,7 +46,7 @@ public class ApiCombinationApplication {
             );
             System.out.println(
                             ConsoleModificator.bright_green()
-                            + "message content: "
+                            + "message content:            "
                             + ConsoleModificator.white()
                             + songs[i]
             );
