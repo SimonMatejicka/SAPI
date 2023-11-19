@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Demo</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    <base href="/" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <!-- toto je iba dočasne aby to bolo v preview videť-->
+    <link rel="stylesheet" type="text/css" href="resources/static/style.css"/>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <main>
+        <div class="show">
+            <div class="text1 rozvrh center">Rozvrh: Základ</div>
+            <div class="rozhlas_dashboard">
+                <div class="hodina">
+                    <div class="text1 name" data-name="0. Hodina">0. Hodina</div>
+                    <div class="text2">
+                        <div class="time start" data-start="7:05">7:05</div>
+                        <div class="line"></div>
+                        <div class="time end" data-end="7:50">7:50</div>
+                    </div>
+                </div>
+                <div class="hodina">
+                    <div class="text1 name" data-name="1. Hodina">1. Hodina</div>
+                    <div class="text2">
+                        <div class="time start" data-start="7:55">7:55</div>
+                        <div class="line"></div>
+                        <div class="time end" data-end="8:40">8:40</div>
+                    </div>
+                </div>
+                <div class="hodina">
+                    <div class="text1 name" data-name="2. Hodina">2. Hodina</div>
+                    <div class="text2">
+                        <div class="time start" data-start="8:40">8:40</div>
+                        <div class="line"></div>
+                        <div class="time end" data-end="9:30">9:30</div>
+                    </div>
+                </div>
+                <div class="hodina">
+                    <div class="text1 name" data-name="3. Hodina">3. Hodina</div>
+                    <div class="text2">
+                        <div class="time start" data-start="9:40">9:40</div>
+                        <div class="line"></div>
+                        <div class="time end" data-end="10:25">10:25</div>
+                    </div>
+                </div>
+                <div class="hodina">
+                    <div class="text1 name" data-name="4. Hodina">4. Hodina</div>
+                    <div class="text2">
+                        <div class="time start" data-start="10:40">10:40</div>
+                        <div class="line"></div>
+                        <div class="time end" data-end="11:25">11:25</div>
+                    </div>
+                </div>
+                <div class="hodina">
+                    <div class="text1 name" data-name="5. Hodina">5. Hodina</div>
+                    <div class="text2">
+                        <div class="time start" data-start="11:30">11:30</div>
+                        <div class="line"></div>
+                        <div class="time end" data-end="12:15">12:15</div>
+                    </div>
+                </div>
+                <div class="hodina">
+                    <div class="text1 name" data-name="6. Hodina">6. Hodina</div>
+                    <div class="text2">
+                        <div class="time start" data-start="12:20">12:20</div>
+                        <div class="line"></div>
+                        <div class="time end"  data-end="13:05">13:05</div>
+                    </div>
+                </div>
+                <div class="hodina">
+                    <div class="text1 name" data-name="7. Hodina">7. Hodina</div>
+                    <div class="text2">
+                        <div class="time start" data-start="13:35">13:35</div>
+                        <div class="line"></div>
+                        <div class="time end" data-end="14:20">14:20</div>
+                    </div>
+                </div>
+                <div class="hodina">
+                    <div class="text1 name" data-name="8. Hodina">8. Hodina</div>
+                    <div class="text2">
+                        <div class="time start" data-start="14:25">14:25</div>
+                        <div class="line"></div>
+                        <div class="time end" data-end="15:10">15:10</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="buttons">
+                <button class="button" onclick="rozvrhChoice()">
+                    Vybrať rozvrh
+                </button>
+                <button class="button" onclick="aplikovanieRozvrhu()">
+                    Aplikovať rozvrh
+                </button>
+            </div>
+        </div>
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
