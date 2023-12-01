@@ -1,3 +1,67 @@
+
+
+.content {
+    height: 60%;
+    width: calc(50% - 30px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contentRight{
+    float: right;
+    flex-direction: column;
+
+}
+.contentLeft{
+    float: left;
+    flex-direction: column;
+}
+
+.custom-field-name {
+    --input-border: none;
+    border-style: none;
+    border-bottom: solid rgb(255, 97, 97) 1px;
+    -webkit-appearance: none;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    text-align: center;
+    height: 10%;
+    width: 100%;
+    font-size: 90%;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    color: rgb(255, 37, 37);
+    outline: 3px solid transparent;
+}
+
+.custom-field-time {
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    text-align: center;
+    height: 10%;
+    width: fit-content;
+    font-size: 90%;
+    box-sizing: border-box;
+    color: rgb(255, 37, 37);
+    outline: 3px solid transparent;
+}
+
+input[type=time]::-webkit-datetime-edit-ampm-field {
+    color: rgb(255, 37, 37);
+}
+
+::placeholder {
+    color: rgb(255, 97, 97);
+}
+::-ms-input-placeholder {
+    color: rgb(255, 97, 97);
+}
+
 body{
     margin: 0;
     font-family: Calibri, "Lucida Console", sans-serif, "Sans Serif Collection";
@@ -5,11 +69,11 @@ body{
 
 
 #overlay{
-    width: 100vw;
-    height: 100vh;
-    z-index: 1; /*popupu daj z-index 11*/
+    width: 100%;
+    height: 100%;
+    z-index: 1;
     background-color: rgba(0, 0, 0, 0.25);
-    position: absolute;
+    position: fixed;
     transition: none;
 }
 
@@ -109,10 +173,8 @@ body{
 }
 
 .text1 {
-    width: fit-content;
     font-size: 24px;
     color: rgb(228, 37, 37);
-
 }
 
 .text2 {
@@ -127,10 +189,15 @@ body{
 
 .line {
     width: 65px;
-    height: 0px;
+    height: 0;
     background-color: white;
     border-bottom: solid rgba(128, 128, 128, 0.56) 1px;
 }
+
+#hodina_popup.line {
+    width: 120px;
+}
+
 .buttons {
     margin: 5px auto;
     width: 240px;
@@ -162,8 +229,14 @@ body{
     .name {
         width: 75%;
     }
-    /*background-color: blue;
-    /*margin: 0 auto;*/
+    .text1 {
+        margin-top: 15px;
+        left: 20px;
+    }
+    .text2 {
+        margin-top: 15px;
+        right: 20px;
+    }
 }
 
 #rozvrhy {
