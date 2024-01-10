@@ -14,7 +14,6 @@ public class ScheduledTasks {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
 
     static String[] songs = {
-            "OutroSong.mp3",
             "ta_nase.mp3",
             "jozin.mp3"
     };
