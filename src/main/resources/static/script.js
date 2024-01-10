@@ -1,76 +1,53 @@
-const input = document.createElement("input");
-input.type = "time";
-input.min = "00:00";
-input.max = "23:59";
-input.value = "23:59";
-
 let openedElement;
 let topLeftDimen;
 let hodina = {
     name:"", start:"", end:"",
 };
 
-$("input#id").val()
-
 $(".hodina").click(function(){
     if($("#hodina_popup").length >= 1){
-        return
+        return;
     }
     hodina.name = $(this).find('.text1').data('name');
-    if ($(this).find('.start').data('start').length === 4){
-        hodina.start = "0" + $(this).find('.start').data('start');
-    }else{
-        hodina.start = $(this).find('.start').data('start');
-    }
-    if ($(this).find('.end').data('end').length === 4){
-        hodina.end = "0" + $(this).find('.end').data('end');
-    }else{
-        hodina.end = $(this).find('.end').data('end');
-    }
+    hodina.start = $(this).find('.start').data('start');
+    hodina.end = $(this).find('.end').data('end');
 
-    console.log("'" + <hodina className="start"></hodina> + "'");
-    console.log(Date.parse(hodina.start));
+    console.log(hodina.start);
 
-    $("body").prepend("<div id='overlay'></div>")
-
+    $("body").prepend("<div id='overlay'></div>");
     $(this).parent().append(
         "<div class='hodina popup' id='hodina_popup'>" +
                 "<div class='text1 contentLeft content' id='hodina_popup'>" +
                     "<input class='custom-field-name' id='name' type='text' placeholder='" + hodina.name + "'/>" +
                 "</div>" +
                 "<div class='text2 contentRight content' id='hodina_popup'>" +
-                    "<input class='custom-field-time' id='start' type='time' value='" + Date.parse(hodina.start) + "'/>" +
+                    "<input class='custom-field-time' type='time' id='start' value='" + hodina.start + "'/>" +
                     "<div class='line'></div>" +
-                    "<input class='custom-field-time' id='end' type='time' value='" + Date.parse(hodina.end) + "'/>" +
+                    "<input class='custom-field-time' type='time' id='end' value='" + hodina.end + "'/>" +
                 "</div>" +
             "<div class='button zrusit_zmenu' onclick='closeHodina(openedElement)'>Zrušiť zmenu</div>" +
             "<div class='button aplikovat_zmenu' onclick='aplikovanieHodiny(openedElement)'>Aplikovať zmenu</div>" +
         "</div>"
     );
-    
+
+
+
     openedElement = $(this);
-    openHodina($(this))
+    openHodina($(this));
     //console.log($(this).css());
     //$(this).css({"position": "absolute"});
     //console.log()
 });
-/*
-$(document).on("click", "#hodina_popup", function(){
-    closeHodina(openedElement);
-    //console.log($(this).css());
-    //$(this).css({"position": "absolute"});
-    //console.log()
-});
-*/
+
 function aplikovanieHodiny(elApl){
-    if($("input#name").val() != ""){
-        openedElement.find(".name").text($("input#name").val()).data('name', $("input#name").val())
+    if($("input#name").val() !== ""){
+        openedElement.find(".name").text($("input#name").val()).data('name', $("input#name").val());
     }
-    if($("input#start").val() != ""){
-        openedElement.find(".start").text($("input#start").val()).data('start', $("input#start").val())
+    if($("input#start").val() !== ""){
+        openedElement.find(".start").text($("input#start").val()).data('start', $("input#start").val());
     }
-    if($("input#end").val() != ""){
-        openedElement.find(".end").text($("input#end").val()).data('end', $("input#end").val())
+    if($("input#end").val() !== ""){
+        openedElement.find(".end").text($("input#end").val()).data('end', $("input#end").val());
     }
     closeHodina(elApl);
 }
@@ -122,22 +99,12 @@ function closeHodina(elTo){
 }
 
 function rozvrhChoice(){
-    $("body").append(
-        "<div id='rozvrhy'></div>"
-    );
-    $("body").prepend("<div id='overlay'></div>"
-    )
+    $("body").append("<div id='rozvrhy'></div>");
+    $("body").prepend("<div id='overlay'></div>")
 
     openedElement = $(this);
     openRozvrhy($(this))
 }
-
-$(document).on("click", "#rozvrhy", function(){
-    closeRozvrhy(openedElement);
-    //console.log($(this).css());
-    //$(this).css({"position": "absolute"});
-    //console.log()
-});
 
 function openRozvrhy(elFrom){
     const el = $("#rozvrhy");

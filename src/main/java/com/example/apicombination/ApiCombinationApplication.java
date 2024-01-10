@@ -23,7 +23,7 @@ public class ApiCombinationApplication {
 
     public static void zvonenie(String[] songs) {
         int i = (int) ((random()*100) % songs.length);
-        int qos = 1;
+        int qos = 0;
         try {
             MqttClient client = new MqttClient(configuration.getBroker(), configuration.getClientId(), new MemoryPersistence());
             MqttConnectOptions options = new MqttConnectOptions();
@@ -40,13 +40,13 @@ public class ApiCombinationApplication {
             client.publish(configuration.getTopic(), message);
             System.out.println(
                             ConsoleModificator.green()
-                            + "Message published in topic: "
+                            + "Message published in topic:    "
                             + ConsoleModificator.white()
                             + configuration.getTopic()
             );
             System.out.println(
                             ConsoleModificator.bright_green()
-                            + "message content:            "
+                            + "message content:               "
                             + ConsoleModificator.white()
                             + songs[i]
             );

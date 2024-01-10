@@ -15,7 +15,8 @@ public class ScheduledTasks {
 
     static String[] songs = {
             "OutroSong.mp3",
-            "ta_nase.mp3"
+            "ta_nase.mp3",
+            "jozin.mp3"
     };
 
     // hodina 0.
@@ -46,7 +47,7 @@ public class ScheduledTasks {
     @Scheduled(cron = "0 25 14 * * MON-FRI")
     @Scheduled(cron = "0 10 15 * * MON-FRI")
 //test
-    @Scheduled(cron = "*/10 * * * * *")
+ //   @Scheduled(cron = "0 * * * * *") // every minute, when seconds are 0
     //@Scheduled(cron = "0 33 14 * * *")
     private void start_zvonenie() {
         System.out.println(

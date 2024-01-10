@@ -1,5 +1,3 @@
-
-
 .content {
     height: 60%;
     width: calc(50% - 30px);
@@ -236,6 +234,9 @@ body{
     .text2 {
         margin-top: 15px;
         right: 20px;
+    }
+    .line {
+        width: 120px;
     }
 }
 
