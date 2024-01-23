@@ -1,13 +1,12 @@
 package com.example.apicombination;
 
+import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import static java.lang.String.format;
-
 
 @Component
 public class ScheduledTasks {
@@ -45,8 +44,12 @@ public class ScheduledTasks {
 // hodina 8.
     @Scheduled(cron = "0 25 14 * * MON-FRI")
     @Scheduled(cron = "0 10 15 * * MON-FRI")
+
+
+
+ //   @Scheduled(cron = "${cron.expression}")
 //test
- //   @Scheduled(cron = "0 * * * * *") // every minute, when seconds are 0
+//  @Scheduled(cron = "0 * * * * *") // every minute, when seconds are 0
     //@Scheduled(cron = "0 33 14 * * *")
     private void start_zvonenie() {
         System.out.println(
