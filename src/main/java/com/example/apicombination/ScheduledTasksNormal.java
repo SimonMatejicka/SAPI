@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Component
-public class ScheduledTasks {
+public class ScheduledTasksNormal {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
 
     static String[] songs = {
@@ -49,13 +49,15 @@ public class ScheduledTasks {
 //  @Scheduled(cron = "0 * * * * *") // every minute, when seconds are 0
     //@Scheduled(cron = "0 33 14 * * *")
     private void start_zvonenie() {
-        System.out.println(
-                        ConsoleModificator.bright_green()
-                        + "Time of execution:          "
-                        + ConsoleModificator.dark_white()
-                        + formatter.format(LocalDateTime.now())
-                        + ConsoleModificator.none()
-        );
-        ApiCombinationApplication.zvonenie(songs);
+        if (ApiCombinationApplication.get_mode() == 0){
+            System.out.println(
+                    ConsoleModificator.bright_green()
+                            + "Time of execution:          "
+                            + ConsoleModificator.dark_white()
+                            + formatter.format(LocalDateTime.now())
+                            + ConsoleModificator.none()
+            );
+            ApiCombinationApplication.zvonenie(songs);
+        }
     }
 }

@@ -9,23 +9,55 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.util.Scanner;
+
 import static java.lang.Math.random;
 
 @SpringBootApplication
 @EnableScheduling
 public class ApiCombinationApplication {
     static Configuration configuration;
+    static int mode;
     public static void main(String[] args){
         var context = SpringApplication
                 .run(ApiCombinationApplication.class, args);
         configuration = context.getBean(Configuration.class);
+        Scanner scanner = new Scanner(System.in);
+        sleep(1);
+        System.out.println(
+                ConsoleModificator.yellow()
+                        + ConsoleModificator.bold()
+                        + "            Mode choice\n"
+                        + ConsoleModificator.none()
+                        + ConsoleModificator.yellow()
+                        + "For normal  length of lectures == 0 (default)\n"
+                        + "For shorted length of lectures == 1\n"
+                        + "Choice:"
+        );
+        mode = scanner.nextInt();
+        String choice;
+        if (mode == 0){
+            choice = "normal";
+        } else {
+            choice = "shorted";
+        }
+        System.out.println(
+                ConsoleModificator.yellow()
+                        + ConsoleModificator.bold()
+                        + "Mode choosed: "
+                        + ConsoleModificator.none()
+                        + ConsoleModificator.yellow()
+                        + choice
+        );
+
     }
-
-    static MqttClient client;
-
-    static {
+    public static int get_mode(){
+        return mode;
+    }
+    public static void sleep(Integer time){
+        int qos = 0;
         try {
-            client = new MqttClient(configuration.getBroker(), configuration.getClientId(), new MemoryPersistence());
+            MqttClient client = new MqttClient(configuration.getBroker(), configuration.getClientId(), new MemoryPersistence());
             MqttConnectOptions options = new MqttConnectOptions();
             options.setUserName(configuration.getUsername());
             options.setPassword(configuration.getPassword().toCharArray());
@@ -33,14 +65,6 @@ public class ApiCombinationApplication {
             options.setKeepAliveInterval(60);
             // connect
             client.connect(options);
-        } catch (MqttException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void sleep(Integer time){
-        int qos = 0;
-        try {
             // create message and setup QoS
             MqttMessage message = new MqttMessage(time.toString().getBytes());
             message.setQos(qos);
@@ -67,6 +91,14 @@ public class ApiCombinationApplication {
         int i = (int) ((random()*100) % songs.length);
         int qos = 0;
         try {
+            MqttClient client = new MqttClient(configuration.getBroker(), configuration.getClientId(), new MemoryPersistence());
+            MqttConnectOptions options = new MqttConnectOptions();
+            options.setUserName(configuration.getUsername());
+            options.setPassword(configuration.getPassword().toCharArray());
+            options.setConnectionTimeout(60);
+            options.setKeepAliveInterval(60);
+            // connect
+            client.connect(options);
             // create message and setup QoS
             MqttMessage message = new MqttMessage(songs[i].getBytes());
             message.setQos(qos);
