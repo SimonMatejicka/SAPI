@@ -17,7 +17,7 @@ import static java.lang.Math.random;
 @EnableScheduling
 public class ApiCombinationApplication {
     static Configuration configuration;
-    static int mode;
+    static int mode = 0;
     public static void main(String[] args){
         var context = SpringApplication
                 .run(ApiCombinationApplication.class, args);
@@ -34,7 +34,12 @@ public class ApiCombinationApplication {
                         + "For shorted length of lectures == 1\n"
                         + "Choice:"
         );
-        mode = scanner.nextInt();
+        try{
+            mode = scanner.nextInt(); //works in inteliJ terminal
+        }
+        catch (RuntimeException e){
+            System.out.println(e);
+        }
         String choice;
         if (mode == 0){
             choice = "normal";
