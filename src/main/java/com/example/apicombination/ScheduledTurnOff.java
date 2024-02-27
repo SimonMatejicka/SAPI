@@ -20,6 +20,6 @@ public class ScheduledTurnOff {
                         + formatter.format(LocalDateTime.now())
                         + ConsoleModificator.none()
         );
-        ApiCombinationApplication.sleep(time);
+        Application.esp_sleep(time);
     }
 }

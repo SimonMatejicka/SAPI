@@ -9,25 +9,33 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.util.Scanner;
-
 import static java.lang.Math.random;
 
 @SpringBootApplication
 @EnableScheduling
-public class ApiCombinationApplication {
+public class Application {
     static Configuration configuration;
-    static int mode = 0;
+    static int time_mode = 0;
+    static int time_sleep = 0;
+    static int time_sleep_long = 0;
     public static void main(String[] args){
         var context = SpringApplication
-                .run(ApiCombinationApplication.class, args);
+                .run(Application.class, args);
         configuration = context.getBean(Configuration.class);
-        mode = Integer.parseInt(configuration.getTimeMode());
+        time_mode = Integer.parseInt(configuration.getTimeMode());
+        time_sleep = Integer.parseInt(configuration.getTimeSleep());
+        time_sleep_long = Integer.parseInt(configuration.getTimeSleepLong());
     }
     public static int get_mode(){
-        return mode;
+        return time_mode;
     }
-    public static void sleep(Integer time){
+
+    public static int get_time_sleep() { return time_sleep; }
+
+    public static int get_time_sleep_long() { return time_sleep; }
+
+
+    public static void esp_sleep(Integer time){
         int qos = 0;
         try {
             MqttClient client = new MqttClient(configuration.getBroker(), configuration.getClientId(), new MemoryPersistence());

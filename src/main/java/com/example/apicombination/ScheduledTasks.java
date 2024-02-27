@@ -49,7 +49,7 @@ public class ScheduledTasks {
 //  @Scheduled(cron = "0 * * * * *") // every minute, when seconds are 0
     //@Scheduled(cron = "0 33 14 * * *")
     private void start_zvonenie() {
-        if (ApiCombinationApplication.get_mode() == 0){
+        if (Application.get_mode() == 0){
             System.out.println("long");
             System.out.println(
                     ConsoleModificator.bright_green()
@@ -58,10 +58,11 @@ public class ScheduledTasks {
                             + formatter.format(LocalDateTime.now())
                             + ConsoleModificator.none()
             );
-            ApiCombinationApplication.zvonenie(songs);
+            Application.zvonenie(songs);
         }
     }
 
+    // need to be changed
     @Scheduled(cron = "0 05 07 * * MON-FRI")
     @Scheduled(cron = "0 50 07 * * MON-FRI")
 // hodina 1.
@@ -92,7 +93,7 @@ public class ScheduledTasks {
 //    @Scheduled(cron = "0 * * * * *") // every minute, when seconds are 0
 
     private void start_zvonenie_short() {
-        if (ApiCombinationApplication.get_mode() == 1){
+        if (Application.get_mode() == 1){
             System.out.println("short");
             System.out.println(
                     ConsoleModificator.bright_green()
@@ -101,7 +102,16 @@ public class ScheduledTasks {
                             + formatter.format(LocalDateTime.now())
                             + ConsoleModificator.none()
             );
-            ApiCombinationApplication.zvonenie(songs);
+            Application.zvonenie(songs);
         }
+    }
+
+    @Scheduled(cron = "0 10 15 * * MON-FRI")
+    private void put_to_sleep(){
+        Application.esp_sleep(Application.get_time_sleep());
+    }
+    @Scheduled(cron = "0 0 6 * * SAT-SUN")
+    private void put_to_long_sleep(){
+        Application.esp_sleep(Application.get_time_sleep_long());
     }
 }

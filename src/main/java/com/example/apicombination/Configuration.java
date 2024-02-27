@@ -17,6 +17,11 @@ public class Configuration {
     private String clientId;
     @Value("${time.mode}")
     private String timeMode;
+    @Value("${time.sleep}")
+    private String timeSleep;
+    @Value("${time.sleep.long}")
+    private String timeSleepLong;
+
 
     public String getBroker() {
         return broker;
@@ -38,5 +43,9 @@ public class Configuration {
         return clientId;
     }
 
-    public String getTimeMode() {return timeMode;}
+    public String getTimeMode() { return timeMode; }
+
+    public String getTimeSleep() { return timeSleep; }
+
+    public String getTimeSleepLong() { return timeSleepLong; }
 }
