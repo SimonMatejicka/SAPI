@@ -64,7 +64,7 @@ public class Application {
                             + time
             );
         } catch (MqttException e) {
-            System.out.println(e);
+            e.getCause();
         }
     }
 
@@ -98,7 +98,7 @@ public class Application {
                             + songs[i]
             );
         } catch (MqttException e) {
-            System.out.println(e);
+            e.getCause();
         }
     }
 }
