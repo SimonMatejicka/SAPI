@@ -22,39 +22,7 @@ public class ApiCombinationApplication {
         var context = SpringApplication
                 .run(ApiCombinationApplication.class, args);
         configuration = context.getBean(Configuration.class);
-        Scanner scanner = new Scanner(System.in);
-        sleep(1);
-        System.out.println(
-                ConsoleModificator.yellow()
-                        + ConsoleModificator.bold()
-                        + "            Mode choice\n"
-                        + ConsoleModificator.none()
-                        + ConsoleModificator.yellow()
-                        + "For normal  length of lectures == 0 (default)\n"
-                        + "For shorted length of lectures == 1\n"
-                        + "Choice:"
-        );
-        try{
-            mode = scanner.nextInt(); //works in inteliJ terminal
-        }
-        catch (RuntimeException e){
-            System.out.println(e);
-        }
-        String choice;
-        if (mode == 0){
-            choice = "normal";
-        } else {
-            choice = "shorted";
-        }
-        System.out.println(
-                ConsoleModificator.yellow()
-                        + ConsoleModificator.bold()
-                        + "Mode choosed: "
-                        + ConsoleModificator.none()
-                        + ConsoleModificator.yellow()
-                        + choice
-        );
-
+        mode = Integer.parseInt(configuration.getTimeMode());
     }
     public static int get_mode(){
         return mode;

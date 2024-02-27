@@ -15,6 +15,8 @@ public class Configuration {
     private String password;
     @Value("${mqtt.clientid}")
     private String clientId;
+    @Value("${time.mode}")
+    private String timeMode;
 
     public String getBroker() {
         return broker;
@@ -35,4 +37,6 @@ public class Configuration {
     public String getClientId() {
         return clientId;
     }
+
+    public String getTimeMode() {return timeMode;}
 }
