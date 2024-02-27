@@ -25,6 +25,7 @@ public class Application {
         time_mode = Integer.parseInt(configuration.getTimeMode());
         time_sleep = Integer.parseInt(configuration.getTimeSleep());
         time_sleep_long = Integer.parseInt(configuration.getTimeSleepLong());
+        esp_in_system();
     }
     public static int get_mode(){
         return time_mode;
@@ -33,7 +34,6 @@ public class Application {
     public static int get_time_sleep() { return time_sleep; }
 
     public static int get_time_sleep_long() { return time_sleep; }
-
 
     public static void esp_sleep(Integer time){
         int qos = 0;
@@ -97,6 +97,31 @@ public class Application {
                             + ConsoleModificator.white()
                             + songs[i]
             );
+        } catch (MqttException e) {
+            e.getCause();
+        }
+    }
+
+    public static void esp_in_system(){
+        try {
+            MqttClient client = new MqttClient(configuration.getBroker(), configuration.getClientId(), new MemoryPersistence());
+            MqttConnectOptions options = new MqttConnectOptions();
+            options.setUserName(configuration.getUsername());
+            options.setPassword(configuration.getPassword().toCharArray());
+            options.setConnectionTimeout(60);
+            options.setKeepAliveInterval(60);
+            // connect
+            client.connect(options);
+            // get units
+            client.subscribe("units", (topic, msg) -> {
+                byte[] payload = msg.getPayload();
+                StringBuilder unit = new StringBuilder();
+                for (byte b : payload) {
+                    unit.append((char) b);
+                }
+                System.out.println(unit);
+            });
+
         } catch (MqttException e) {
             e.getCause();
         }
