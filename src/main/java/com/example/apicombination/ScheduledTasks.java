@@ -114,4 +114,9 @@ public class ScheduledTasks {
     private void put_to_long_sleep(){
         Application.esp_sleep(Application.get_time_sleep_long());
     }
+
+    @Scheduled(cron = "0 * * * *")
+    private void system_search(){
+        Application.control_esp_in_system("here");
+    }
 }
