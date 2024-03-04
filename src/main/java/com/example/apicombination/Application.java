@@ -10,7 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.Math.random;
 
@@ -18,19 +20,33 @@ import static java.lang.Math.random;
 @EnableScheduling
 public class Application {
     private static Configuration configuration;
+    private static MqttClient client;
+    private static boolean initial = true;
     private static int time_mode = 0;
     private static int time_sleep = 0;
     private static int time_sleep_long = 0;
-    private static final List<String> units = new ArrayList<>();
-    public static void main(String[] args){
+    private static final Map<String, Boolean> units = new HashMap<>();
+
+
+
+    public static void main(String[] args) throws MqttException {
         var context = SpringApplication
                 .run(Application.class, args);
         configuration = context.getBean(Configuration.class);
         time_mode = Integer.parseInt(configuration.getTimeMode());
         time_sleep = Integer.parseInt(configuration.getTimeSleep());
         time_sleep_long = Integer.parseInt(configuration.getTimeSleepLong());
+        client = new MqttClient(configuration.getBroker(), configuration.getClientId(), new MemoryPersistence());
+        MqttConnectOptions options = new MqttConnectOptions();
+        options.setUserName(configuration.getUsername());
+        options.setPassword(configuration.getPassword().toCharArray());
+        options.setConnectionTimeout(60);
+        options.setKeepAliveInterval(60);
+        // connect
+        client.connect(options);
         catch_esp_in_system();
     }
+
     public static int get_mode(){
         return time_mode;
     }
@@ -38,35 +54,29 @@ public class Application {
     public static int get_time_sleep() { return time_sleep; }
 
     public static int get_time_sleep_long() { return time_sleep_long; }
-
     public static void esp_sleep(Integer time){
         int qos = 0;
         try {
-            MqttClient client = new MqttClient(configuration.getBroker(), configuration.getClientId(), new MemoryPersistence());
-            MqttConnectOptions options = new MqttConnectOptions();
-            options.setUserName(configuration.getUsername());
-            options.setPassword(configuration.getPassword().toCharArray());
-            options.setConnectionTimeout(60);
-            options.setKeepAliveInterval(60);
-            // connect
-            client.connect(options);
             // create message and setup QoS
             MqttMessage message = new MqttMessage(time.toString().getBytes());
             message.setQos(qos);
             // publish message
             client.publish("sleep", message);
+            // DEBUG
+            /*
             System.out.println(
-                    ConsoleModificator.green()
+                    ConsoleModificator.blue()
                             + "Message published in topic:    "
                             + ConsoleModificator.white()
                             + configuration.getTopic()
             );
             System.out.println(
-                    ConsoleModificator.bright_green()
+                    ConsoleModificator.bright_blue()
                             + "message content:               "
                             + ConsoleModificator.white()
                             + time
             );
+            */
         } catch (MqttException e) {
             e.getCause();
         }
@@ -76,31 +86,26 @@ public class Application {
         int i = (int) ((random()*100) % songs.length);
         int qos = 0;
         try {
-            MqttClient client = new MqttClient(configuration.getBroker(), configuration.getClientId(), new MemoryPersistence());
-            MqttConnectOptions options = new MqttConnectOptions();
-            options.setUserName(configuration.getUsername());
-            options.setPassword(configuration.getPassword().toCharArray());
-            options.setConnectionTimeout(60);
-            options.setKeepAliveInterval(60);
-            // connect
-            client.connect(options);
             // create message and setup QoS
             MqttMessage message = new MqttMessage(songs[i].getBytes());
             message.setQos(qos);
             // publish message
             client.publish("zvonenie", message);
+            // DEBUG
+            /*
             System.out.println(
-                            ConsoleModificator.green()
+                            ConsoleModificator.blue()
                             + "Message published in topic:    "
                             + ConsoleModificator.white()
                             + configuration.getTopic()
             );
             System.out.println(
-                            ConsoleModificator.bright_green()
+                            ConsoleModificator.bright_blue()
                             + "message content:               "
                             + ConsoleModificator.white()
                             + songs[i]
             );
+             */
         } catch (MqttException e) {
             e.getCause();
         }
@@ -108,14 +113,6 @@ public class Application {
 
     public static void catch_esp_in_system(){
         try {
-            MqttClient client = new MqttClient(configuration.getBroker(), configuration.getClientId(), new MemoryPersistence());
-            MqttConnectOptions options = new MqttConnectOptions();
-            options.setUserName(configuration.getUsername());
-            options.setPassword(configuration.getPassword().toCharArray());
-            options.setConnectionTimeout(60);
-            options.setKeepAliveInterval(60);
-            // connect
-            client.connect(options);
             // get units
             client.subscribe("units", (topic, msg) -> {
                 byte[] payload = msg.getPayload();
@@ -124,12 +121,13 @@ public class Application {
                     unit.append((char) b);
                 }
 
-                if (!units.contains(unit.toString())){
-                    units.add(unit.toString());
+                if (!units.containsKey(unit.toString())){
+                    units.put(unit.toString(), true);
                 }
-                System.out.println(unit);
+                else {
+                    units.computeIfPresent(unit.toString(), (k,v) -> v = true);
+                }
             });
-
         } catch (MqttException e) {
             e.getCause();
         }
@@ -137,44 +135,47 @@ public class Application {
 
     public static void control_esp_in_system(String conrolMessage){
         int qos = 0;
+        for (Map.Entry<String, Boolean> unit : units.entrySet()) {
+            unit.setValue(false);
+        }
         try {
-            MqttClient client = new MqttClient(configuration.getBroker(), configuration.getClientId(), new MemoryPersistence());
-            MqttConnectOptions options = new MqttConnectOptions();
-            options.setUserName(configuration.getUsername());
-            options.setPassword(configuration.getPassword().toCharArray());
-            options.setConnectionTimeout(60);
-            options.setKeepAliveInterval(60);
-            // connect
-            client.connect(options);
             // create message and setup QoS
             MqttMessage message = new MqttMessage(conrolMessage.getBytes());
             message.setQos(qos);
             // publish message
             client.publish("control", message);
+            // DEBUG
+            /*
             System.out.println(
-                    ConsoleModificator.bright_green()
+                    ConsoleModificator.bright_blue()
                             + "Control message: "
                             + ConsoleModificator.white()
                             + message
             );
-            catch_esp_in_system();
-            print_esp_in_system();
+            */
         } catch (MqttException e) {
             e.getCause();
         }
     }
 
+    // DEBUG
     public static void print_esp_in_system(){
         System.out.println(
-                ConsoleModificator.yellow_backgound()
-        + ConsoleModificator.black()
-        + "--- List of esp in system ---"
-        + ConsoleModificator.bright_black()
+                //ConsoleModificator.move_cursor_up( )
+                 ConsoleModificator.cyan()
+                + "------------  List of esp in system  ------------"
         );
-        for (int i = 0; i < units.size(); i++){
-            System.out.println(units.listIterator(i));
+        String out;
+        for (Map.Entry<String, Boolean> unit : units.entrySet()) {
+            if (unit.getValue()){
+                out = ConsoleModificator.bright_green();
+            }
+            else {
+                out = ConsoleModificator.bright_red();
+            }
+            System.out.println(out + unit.getKey());
         }
-        System.out.println(ConsoleModificator.none());
+        System.out.println(ConsoleModificator.none() + "                     ");
     }
 }
 

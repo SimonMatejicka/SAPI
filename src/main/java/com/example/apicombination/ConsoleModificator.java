@@ -110,4 +110,12 @@ public class ConsoleModificator {
         return "\u001B[24m";
     }
 
+    // cursor modificator
+    static String move_cursor_up(Integer n){
+        return "\u001B[" + n + "A";
+    }
+    static String move_cursor_down(Integer n){
+        return "\u001B[" + n + "B";
+    }
+
 }
