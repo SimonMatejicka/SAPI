@@ -131,8 +131,8 @@ public class ScheduledTasks {
     */
     // @Scheduled(cron = "*/2 * * * * *")
     /*
-    private void system_search(){
-        Application.control_esp_in_system("here");
+    private void print_system(){
+        Application.print_esp_in_system("here");
     }
      */
 
