@@ -9,9 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static java.lang.Math.random;
@@ -21,7 +19,6 @@ import static java.lang.Math.random;
 public class Application {
     private static Configuration configuration;
     private static MqttClient client;
-    private static boolean initial = true;
     private static int time_mode = 0;
     private static int time_sleep = 0;
     private static int time_sleep_long = 0;
