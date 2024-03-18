@@ -19,19 +19,20 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/zvonenie")
+@RequestMapping("/audio/")
 public class AudioController {
 
 
 
     public static final String AUDIO_PATH = "/static/audio";
-    public static final int BYTE_RANGE = 128; // increase the byterange from here
+    public static final int BYTE_RANGE = 256; // increase the byterange from here
 
-    @GetMapping("/{fileName}")
+    @GetMapping("zvonenie/{fileName}")
     public /*Mono<*/ResponseEntity<byte[]>/*>*/ streamAudio(@RequestHeader(value = "Range", required = false) String httpRangeList,
                                                             @PathVariable("fileName") String fileName) {
         return /*Mono.just(*/getContent(AUDIO_PATH, fileName, httpRangeList, "audio")/*)*/;
     }
+
     private ResponseEntity<byte[]> getContent(String location, String fileName, String range, String contentTypePrefix) {
         long rangeStart = 0;
         long rangeEnd;

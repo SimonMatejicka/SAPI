@@ -51,6 +51,25 @@ public class Application {
     public static int get_time_sleep() { return time_sleep; }
 
     public static int get_time_sleep_long() { return time_sleep_long; }
+
+    public static String esp_diagnose(String mac) throws MqttException {
+        final String[] _diagnose = new String[1];
+        int qos = 0;
+        MqttMessage message = new MqttMessage("diagnose".getBytes());
+        message.setQos(qos);
+        // publish message
+        client.publish(mac, message);
+        client.subscribe("diagnose/" + mac, (topic, msg) -> {
+            byte[] payload = msg.getPayload();
+            StringBuilder stats = new StringBuilder();
+            for (byte b : payload) {
+                stats.append((char) b);
+            }
+            // TODO parse json
+            _diagnose[0] = stats.toString();
+        });
+        return _diagnose[0];
+    }
     public static void esp_sleep(Integer time){
         int qos = 0;
         try {
