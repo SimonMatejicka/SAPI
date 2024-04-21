@@ -24,6 +24,16 @@ public class Application {
     private static int time_sleep_long = 0;
     private static final Map<String, Boolean> units = new HashMap<>();
 
+    private static void MQTT_connecting() throws MqttException {
+        client = new MqttClient(configuration.getBroker(), configuration.getClientId(), new MemoryPersistence());
+        MqttConnectOptions options = new MqttConnectOptions();
+        options.setUserName(configuration.getUsername());
+        options.setPassword(configuration.getPassword().toCharArray());
+        options.setConnectionTimeout(60);
+        options.setKeepAliveInterval(60);
+        // connect
+        client.connect(options);
+    }
 
 
     public static void main(String[] args) throws MqttException {
@@ -33,15 +43,9 @@ public class Application {
         time_mode = Integer.parseInt(configuration.getTimeMode());
         time_sleep = Integer.parseInt(configuration.getTimeSleep());
         time_sleep_long = Integer.parseInt(configuration.getTimeSleepLong());
-        client = new MqttClient(configuration.getBroker(), configuration.getClientId(), new MemoryPersistence());
-        MqttConnectOptions options = new MqttConnectOptions();
-        options.setUserName(configuration.getUsername());
-        options.setPassword(configuration.getPassword().toCharArray());
-        options.setConnectionTimeout(60);
-        options.setKeepAliveInterval(60);
-        // connect
-        client.connect(options);
+        MQTT_connecting();
         catch_esp_in_system();
+        client.disconnect();
     }
 
     public static int get_mode(){
@@ -52,13 +56,23 @@ public class Application {
 
     public static int get_time_sleep_long() { return time_sleep_long; }
 
-    public static String esp_diagnose(String mac) throws MqttException {
+    public static void esp_diagnose(String mac) throws MqttException {
         final String[] _diagnose = new String[1];
         int qos = 0;
+        MQTT_connecting();
         MqttMessage message = new MqttMessage("diagnose".getBytes());
         message.setQos(qos);
         // publish message
         client.publish(mac, message);
+        client.disconnect();
+    }
+    public static String esp_diagnose_catch(String mac) throws MqttException {
+        final String[] _diagnose = new String[1];
+        int qos = 0;
+        MQTT_connecting();
+        MqttMessage message = new MqttMessage("diagnose".getBytes());
+        message.setQos(qos);
+        // publish message
         client.subscribe("diagnose/" + mac, (topic, msg) -> {
             byte[] payload = msg.getPayload();
             StringBuilder stats = new StringBuilder();
@@ -68,16 +82,19 @@ public class Application {
             // TODO parse json
             _diagnose[0] = stats.toString();
         });
+        client.disconnect();
         return _diagnose[0];
     }
     public static void esp_sleep(Integer time){
         int qos = 0;
         try {
+            MQTT_connecting();
             // create message and setup QoS
             MqttMessage message = new MqttMessage(time.toString().getBytes());
             message.setQos(qos);
             // publish message
             client.publish("sleep", message);
+            client.disconnect();
             // DEBUG
             /*
             System.out.println(
@@ -99,14 +116,19 @@ public class Application {
     }
 
     public static void zvonenie(String[] songs) {
-        int i = (int) ((random()*100) % songs.length);
+        int i = (int) ((random()*100) % 31 /*songs.length*/);
+        String song = "-" + (i+1) + ".mp3";
+        // System.out.println(song);
         int qos = 0;
         try {
+            MQTT_connecting();
             // create message and setup QoS
-            MqttMessage message = new MqttMessage(songs[i].getBytes());
+            // MqttMessage message = new MqttMessage(songs[i].getBytes());
+            MqttMessage message = new MqttMessage(song.getBytes());
             message.setQos(qos);
             // publish message
             client.publish("zvonenie", message);
+            client.disconnect();
             // DEBUG
             /*
             System.out.println(
@@ -129,6 +151,7 @@ public class Application {
 
     public static void catch_esp_in_system(){
         try {
+            MQTT_connecting();
             // get units
             client.subscribe("units", (topic, msg) -> {
                 byte[] payload = msg.getPayload();
@@ -144,6 +167,7 @@ public class Application {
                     units.computeIfPresent(unit.toString(), (k,v) -> v = true);
                 }
             });
+            client.disconnect();
         } catch (MqttException e) {
             e.getCause();
         }
@@ -155,11 +179,13 @@ public class Application {
             unit.setValue(false);
         }
         try {
+            MQTT_connecting();
             // create message and setup QoS
             MqttMessage message = new MqttMessage(conrolMessage.getBytes());
             message.setQos(qos);
             // publish message
             client.publish("control", message);
+            client.disconnect();
             // DEBUG
             /*
             System.out.println(

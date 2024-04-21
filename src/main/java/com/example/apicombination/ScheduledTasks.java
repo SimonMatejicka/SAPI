@@ -9,12 +9,15 @@ import java.time.format.DateTimeFormatter;
 public class ScheduledTasks {
     // DEBUG
     //private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
-
+/*
     static String[] songs = {
             "ta_nase.mp3",
             "jozin.mp3",
             "rickroll.mp3",
             "ta_nase.mp3"
+    };
+*/
+    static String[] songs = {
     };
 
     // hodina 0.

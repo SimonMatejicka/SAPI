@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class EndpointController {
     @GetMapping("/{mac}")
     public String getDiagnose(@PathVariable String mac) throws MqttException {
-        return Application.esp_diagnose(mac);
+        Application.esp_diagnose(mac);
+        return Application.esp_diagnose_catch(mac);
     }
 }
