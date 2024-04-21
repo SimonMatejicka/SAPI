@@ -45,7 +45,6 @@ public class Application {
         time_sleep_long = Integer.parseInt(configuration.getTimeSleepLong());
         MQTT_connecting();
         catch_esp_in_system();
-        client.disconnect();
     }
 
     public static int get_mode(){
@@ -117,7 +116,11 @@ public class Application {
 
     public static void zvonenie(String[] songs) {
         int i = (int) ((random()*100) % 31 /*songs.length*/);
-        String song = "-" + (i+1) + ".mp3";
+        String song = "-";
+        if (i < 9){
+            song += "0";
+        }
+        song += (i+1) + ".mp3";
         // System.out.println(song);
         int qos = 0;
         try {

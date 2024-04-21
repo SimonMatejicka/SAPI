@@ -50,7 +50,7 @@ public class ScheduledTasks {
 
     // DEBUG
     // @Scheduled(cron = "${cron.expression}")
-    //@Scheduled(cron = "0 */2 * * * *") // every minute, when seconds are 0
+    //@Scheduled(cron = "0 */1 * * * *") // every minute, when seconds are 0
     //@Scheduled(cron = "0 33 14 * * *")
     private void start_zvonenie() {
         if (Application.get_mode() == 0){
