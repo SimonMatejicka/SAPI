@@ -2,11 +2,9 @@ package com.example.apicombination;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Component
-public class ScheduledTasks {
+public class ScheduledTasksController {
     // DEBUG
     //private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
 /*
